@@ -1,0 +1,1 @@
+url = "mongodb+srv://dbuser:dbpass@cluster0.ws0sq.mongodb.net/therepy?retryWrites=true&w=majority&appName=Cluster0"
