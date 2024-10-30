@@ -8,7 +8,7 @@ app = Flask(__name__)
 CORS(app)
 
 # Connect to MongoDB
-url = "mongodb+srv://dbuser:dbpass@cluster0.ws0sq.mongodb.net/therepy?retryWrites=true&w=majority&appName=Cluster0"
+url = "mongodb+srv://arth1234samepass:arth1234@cluster0.pdgx6ns.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
 client = MongoClient(url)
 db = client.therapy  # Database named 'therapy'
 
@@ -64,6 +64,7 @@ def add_mood_data():
 # Route to create a patient
 @app.route('/createuser', methods=['POST'])
 def create_user():
+    print("req recieved",request.json)
     data = request.json
     patient = {
         "name_": data['name_'],
@@ -102,6 +103,7 @@ def signup():
 def login():
     data = request.json
     email = data.get('email')
+    print(data.get('password'))
     password = hash_password(data.get('password'))
     user = patients_collection.find_one({"email": email}) or doctors_collection.find_one({"email": email})
     if user and user['password'] == password:
@@ -121,6 +123,17 @@ def add_appointment():
     appointments_collection.insert_one(appointment)
     return jsonify({"message": "Appointment added successfully"}), 201
 
+# Route to get all appointments
+@app.route('/getappointments', methods=['GET'])
+def get_appointments():
+    appointments = list(appointments_collection.find({}, {"_id": 0}))  # Exclude the MongoDB ID
+    return jsonify(appointments), 200
+
+@app.route('/getappointmentsbyemail/<email>', methods=['GET'])
+def get_appointments_by_email(email):
+    appointments = list(appointments_collection.find({"patientemail":email}, {"_id": 0}))  # Exclude the MongoDB ID
+    return jsonify(appointments), 200
+
 # Route to update appointment status
 @app.route('/appointmentstatusupdate', methods=['POST'])
 def update_appointment_status():
@@ -134,13 +147,30 @@ def update_appointment_status():
     return jsonify({"message": "Appointment status updated"}), 200
 
 # Route to filter patients by email
-@app.route('/filterpatientsbyemail', methods=['GET'])
-def filter_patients_by_email():
-    email = request.args.get('email')
+@app.route('/filterpatientsbyemail/<email>', methods=['GET'])
+def filter_patients_by_email(email):
+    print("filtering...")
     patient = patients_collection.find_one({"email": email}, {"_id": 0, "password": 0})
     if patient:
         return jsonify(patient), 200
     return jsonify({"error": "Patient not found"}), 404
+
+@app.route('/getallpatients', methods=['GET'])
+def get_all_patients():
+    patients = list(patients_collection.find({}, {"_id": 0, "password": 0}))
+    return jsonify(patients), 200
+
+# Route to get patients by doctor's email
+@app.route('/getpatientsbydoctor/<doctor_email>', methods=['GET'])
+def get_patients_by_doctor(doctor_email):
+    patients = patients_collection.find(
+        {"medical_history.doctor_email": doctor_email},
+        {"_id": 0, "password": 0}
+    )
+    result = []
+    for patient in patients:
+        result.append(patient)
+    return jsonify(result), 200
 
 # Route to delete mood data
 @app.route('/deletemood', methods=['DELETE'])
@@ -155,18 +185,18 @@ def delete_mood():
     return jsonify({"message": "Mood data deleted successfully"}), 200
 
 # Route to view mood data by email
-@app.route('/viewmooddatabyemail', methods=['GET'])
-def view_mood_data_by_email():
-    email = request.args.get('email')
+@app.route('/viewmooddatabyemail/<email>', methods=['GET'])
+def view_mood_data_by_email(email):
+    # email = request.args.get('email')
     patient = patients_collection.find_one({"email": email}, {"_id": 0, "medical_summary": 1})
     if patient:
         return jsonify(patient.get('medical_summary', [])), 200
     return jsonify({"error": "Mood data not found"}), 404
 
 # Route to view patient history by doctor's email
-@app.route('/viewpatienthystorybydoctorsemail', methods=['GET'])
-def view_patient_history_by_doctor():
-    doctor_email = request.args.get('doctor_email')
+@app.route('/viewpatienthystorybydoctorsemail/<doctor_email>', methods=['GET'])
+def view_patient_history_by_doctor(doctor_email):
+    # doctor_email = request.args.get('doctor_email')
     patients = patients_collection.find({"medical_history.doctor_email": doctor_email}, {"_id": 0, "medical_history": 1})
     patient_history = []
     for patient in patients:

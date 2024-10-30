@@ -14,6 +14,7 @@ function PatientMoodHistory() {
   };
 
   return (
+    <>
     <div>
       <h2>Patient Mood History</h2>
       <input
@@ -29,6 +30,7 @@ function PatientMoodHistory() {
         ))}
       </ul>
     </div>
+    </>
   );
 }
 
