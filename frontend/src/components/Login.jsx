@@ -1,53 +1,72 @@
-// components/Login.js
+// Login.js
 import React, { useState } from 'react';
-import api from '../services/api';
-import Cookies from 'js-cookie';
 
-function Login({ onLoginSuccess }) {
+const Login = ({ onLoginSuccess }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState(null);
+  const [error, setError] = useState('');
 
-  const handleLogin = async (e) => {
+  const handleLogin = (e) => {
     e.preventDefault();
-    try {
-      const response = await api.post('/login', { email, password });
-      if (response.status === 200) {
-        Cookies.set('doctors_email', email);  // Store doctor email in cookies
-        onLoginSuccess();  // Callback to update state in App.js
-      }
-    } catch (err) {
-      setError("Invalid credentials. Please try again.");
+    // Mock authentication
+    if (email === 'doctor@example.com' && password === 'password') {
+      onLoginSuccess();
+    } else {
+      setError('Invalid email or password');
     }
   };
 
   return (
-    <div>
-      <h2>Login</h2>
+    <div style={{
+      backgroundColor: '#f7f9fc',
+      padding: '30px',
+      borderRadius: '8px',
+      boxShadow: '0 4px 10px rgba(0, 0, 0, 0.1)',
+      maxWidth: '400px',
+      margin: '50px auto',
+    }}>
+      <h2 className="text-center" style={{ color: '#343a40', marginBottom: '20px' }}>Login to Your Account</h2>
+      {error && <div className="alert alert-danger">{error}</div>}
       <form onSubmit={handleLogin}>
-        <div>
-          <label>Email:</label>
+        <div className="form-group">
+          <label htmlFor="email">Email address</label>
           <input
             type="email"
+            className="form-control"
+            id="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
+            placeholder="Enter your email"
+            style={{
+              borderRadius: '5px',
+              border: '1px solid #ced4da',
+            }}
           />
         </div>
-        <div>
-          <label>Password:</label>
+        <div className="form-group">
+          <label htmlFor="password">Password</label>
           <input
             type="password"
+            className="form-control"
+            id="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
+            placeholder="Enter your password"
+            style={{
+              borderRadius: '5px',
+              border: '1px solid #ced4da',
+            }}
           />
         </div>
-        {error && <p style={{ color: 'red' }}>{error}</p>}
-        <button type="submit">Login</button>
+        <button type="submit" className="btn btn-primary btn-block" style={{ borderRadius: '5px' }}>Login</button>
       </form>
+      <p className="text-center mt-3">
+        <a href="#" style={{ color: '#007bff' }}>Forgot password?</a>
+      </p>
     </div>
   );
-}
+};
 
 export default Login;

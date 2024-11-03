@@ -1,0 +1,66 @@
+/* App.css */
+
+/* Navbar Styles */
+.navbar {
+    background-color: #f8f9fa; /* Light background */
+    border-bottom: 1px solid #dee2e6; /* Bottom border */
+  }
+  
+  .navbar-brand {
+    font-weight: bold; /* Bold brand text */
+    font-size: 1.5rem; /* Increase font size */
+  }
+  
+  .nav-link {
+    color: #007bff; /* Default link color */
+    transition: color 0.3s; /* Smooth transition */
+  }
+  
+  .nav-link:hover {
+    color: #0056b3; /* Darker blue on hover */
+  }
+  
+  .nav-link.active {
+    font-weight: bold; /* Active link style */
+    color: #0056b3; /* Darker blue for active links */
+  }
+  
+  /* Container Styles */
+  .container {
+    margin-top: 20px; /* Add space at the top */
+  }
+  
+  /* Title Styles */
+  h1 {
+    color: #343a40; /* Darker text color */
+    margin-bottom: 20px; /* Space below the title */
+  }
+  
+  /* Login Component Styles */
+  .login-container {
+    background-color: #e9ecef; /* Light background for login */
+    padding: 20px; /* Padding around the login form */
+    border-radius: 5px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add shadow */
+    max-width: 400px; /* Limit width */
+    margin: auto; /* Center the container */
+  }
+  
+  /* Card Styles */
+  .card {
+    margin: 20px 0; /* Spacing between cards */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2); /* Shadow effect */
+  }
+  
+  /* Responsive Styles */
+  @media (max-width: 768px) {
+    .navbar {
+      text-align: center; /* Center text on small screens */
+    }
+  
+    .login-container {
+      width: 90%; /* Make it responsive */
+    }
+  }
+  
