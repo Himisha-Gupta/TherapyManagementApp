@@ -145,7 +145,7 @@ def update_appointment_status():
         {"_id": appointment_id},
         {"$set": {"status": status}}
     )
-    return jsonify({"message": "Appointment status updated"}), 200
+    return jsonify({"message": "Appointment Status Updated"}), 200
 
 
 # Route to filter patients by email
