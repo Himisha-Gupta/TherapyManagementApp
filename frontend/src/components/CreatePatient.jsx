@@ -24,9 +24,10 @@ function CreatePatient() {
         title: data.title,
         description: data.description,
         improvement_out_of_10: data.improvement_out_of_10,
-        doctor_email: doctorEmail,
+        doctor_email: "doctor@example.com",
       };
-
+      
+      console.log(medicalHistory)
       await api.post('/addmedicalhistory', medicalHistory);
 
       alert('Patient and initial medical history created successfully');

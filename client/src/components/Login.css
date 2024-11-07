@@ -1,0 +1,54 @@
+/* src/components/Login.css */
+
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh; /* Full viewport height */
+  background-color: #f7f9fc; /* Light background color */
+}
+
+.login-form {
+  background-color: white; /* Form background */
+  padding: 20px;
+  border-radius: 8px; /* Rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  width: 300px; /* Fixed width for the form */
+}
+
+h2 {
+  text-align: center; /* Center the heading */
+  margin-bottom: 20px; /* Space below the heading */
+}
+
+.form-group {
+  margin-bottom: 15px; /* Space between input fields */
+}
+
+.form-control {
+  width: 100%; /* Full width inputs */
+  padding: 10px; /* Padding inside inputs */
+  border: 1px solid #ccc; /* Light border */
+  border-radius: 4px; /* Rounded borders for inputs */
+  font-size: 16px; /* Larger font size */
+}
+
+.form-control:focus {
+  border-color: #007bff; /* Highlight border color on focus */
+  outline: none; /* Remove outline */
+}
+
+.btn {
+  width: 100%; /* Full width button */
+  padding: 10px;
+  border: none; /* Remove border */
+  border-radius: 4px; /* Rounded borders for button */
+  background-color: #007bff; /* Primary button color */
+  color: white; /* White text color */
+  font-size: 16px; /* Larger font size */
+  cursor: pointer; /* Pointer cursor on hover */
+}
+
+.btn:hover {
+  background-color: #0056b3; /* Darker shade on hover */
+}

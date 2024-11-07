@@ -7,7 +7,7 @@ function Appointments() {
   // Fetch appointments from the backend
   const fetchAppointments = async () => {
     try {
-      const response = await api.get('/getappointments'); // Assume this endpoint exists
+      const response = await api.get('/getappointments'); // Ensure this endpoint exists and works
       setAppointments(response.data);
     } catch (error) {
       console.error('Error fetching appointments:', error);
@@ -22,7 +22,8 @@ function Appointments() {
         _id: appointment._id,
         status: newStatus,
       });
-      fetchAppointments(); // Refresh the appointments after update
+      console.log(`Updated appointment ${appointment._id} to ${newStatus}`);
+      await fetchAppointments(); // Wait for fetchAppointments to complete after update
     } catch (error) {
       console.error('Error updating appointment status:', error);
     }

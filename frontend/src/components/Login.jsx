@@ -1,5 +1,6 @@
 // Login.js
 import React, { useState } from 'react';
+import Cookies from 'js-cookie';
 
 const Login = ({ onLoginSuccess }) => {
   const [email, setEmail] = useState('');
@@ -9,7 +10,8 @@ const Login = ({ onLoginSuccess }) => {
   const handleLogin = (e) => {
     e.preventDefault();
     // Mock authentication
-    if (email === 'doctor@example.com' && password === 'password') {
+    if (email === 'doctor1@gmail.com' && password === 'doctor1234') {
+      Cookies.set("doctors_email","doctor1@gmail.com")
       onLoginSuccess();
     } else {
       setError('Invalid email or password');

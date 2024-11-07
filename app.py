@@ -138,6 +138,7 @@ def get_appointments_by_email(email):
 @app.route('/appointmentstatusupdate', methods=['POST'])
 def update_appointment_status():
     data = request.json
+    print(data)  # Log received data
     appointment_id = data.get('_id')
     status = data.get('status')
     appointments_collection.update_one(
@@ -145,6 +146,7 @@ def update_appointment_status():
         {"$set": {"status": status}}
     )
     return jsonify({"message": "Appointment status updated"}), 200
+
 
 # Route to filter patients by email
 @app.route('/filterpatientsbyemail/<email>', methods=['GET'])
