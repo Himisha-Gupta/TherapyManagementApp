@@ -52,7 +52,9 @@ def add_mood_data():
         "date": datetime.now(),
         "feeling_happy": data['feeling_happy'],
         "feeling_sad": data['feeling_sad'],
-        "feeding_shaddy": data['feeding_shaddy'],
+         "energy_level": data['sleep_quality'],
+         "sleep_quality": data['sleep_quality'],
+          "stress_level":data['stress_level'],
         "description": data['description']
     }
     patients_collection.update_one(

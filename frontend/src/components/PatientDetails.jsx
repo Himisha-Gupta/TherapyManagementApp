@@ -10,6 +10,11 @@ function PatientDetails() {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [improvement, setImprovement] = useState('');
+  const [feelingHappy, setFeelingHappy] = useState('');
+  const [feelingSad, setFeelingSad] = useState('');
+  const [energyLevel, setEnergyLevel] = useState('');
+  const [sleepQuality, setSleepQuality] = useState('');
+  const [stressLevel, setStressLevel] = useState('');
 
   const handleAddMedicalHistory = async (e) => {
     e.preventDefault();
@@ -30,6 +35,33 @@ function PatientDetails() {
       setImprovement('');
     } catch (err) {
       console.error("Error adding medical history:", err);
+    }
+  };
+
+  const handleAddMoodData = async (e) => {
+    e.preventDefault();
+    const doctorEmail = Cookies.get('doctors_email');
+    const moodData = {
+      email: patient.email,
+      feeling_happy: feelingHappy,
+      feeling_sad: feelingSad,
+      energy_level: energyLevel,
+      sleep_quality: sleepQuality,
+      stress_level: stressLevel,
+      description: description,
+    };
+
+    try {
+      await api.post('/addmooddata', moodData);
+      alert("Mood data added successfully");
+      setFeelingHappy('');
+      setFeelingSad('');
+      setEnergyLevel('');
+      setSleepQuality('');
+      setStressLevel('');
+      setDescription('');
+    } catch (err) {
+      console.error("Error adding mood data:", err);
     }
   };
 
@@ -72,29 +104,32 @@ function PatientDetails() {
       </table>
 
       <h4>Medical Summary</h4>
-<table className="table table-bordered">
-  <thead>
-    <tr>
-      <th>Date</th>
-      <th>Description</th>
-      <th>Feeling Shady (Out of 10)</th>
-      <th>Feeling Happy (Out of 10)</th>
-      <th>Feeling Sad (Out of 10)</th>
-    </tr>
-  </thead>
-  <tbody>
-    {patient.medical_summary.map((summary, index) => (
-      <tr key={index}>
-        <td>{new Date(summary.date).toLocaleDateString()}</td>
-        <td>{summary.description}</td>
-        <td>{summary.feeding_shaddy}</td>
-        <td>{summary.feeling_happy}</td>
-        <td>{summary.feeling_sad}</td>
-      </tr>
-    ))}
-  </tbody>
-</table>
-
+      <table className="table table-bordered">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Description</th>
+            <th>Feeling Happy (Out of 10)</th>
+            <th>Feeling Sad (Out of 10)</th>
+            <th>Energy Level</th>
+            <th>Sleep Quality</th>
+            <th>Stress Level</th>
+          </tr>
+        </thead>
+        <tbody>
+          {patient.medical_summary.map((summary, index) => (
+            <tr key={index}>
+              <td>{new Date(summary.date).toLocaleDateString()}</td>
+              <td>{summary.description}</td>
+              <td>{summary.feeling_happy}</td>
+              <td>{summary.feeling_sad}</td>
+              <td>{summary.energy_level}</td>
+              <td>{summary.sleep_quality}</td>
+              <td>{summary.stress_level}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
 
       <h4>Add Medical History</h4>
       <form onSubmit={handleAddMedicalHistory}>
@@ -135,6 +170,81 @@ function PatientDetails() {
           />
         </div>
         <button type="submit" className="btn btn-success mt-2">Add Medical History</button>
+      </form>
+
+      <h4>Add Mood Data</h4>
+      <form onSubmit={handleAddMoodData}>
+        <div className="form-group">
+          <label>Feeling Happy (Out of 10)</label>
+          <input
+            type="number"
+            className="form-control"
+            value={feelingHappy}
+            onChange={(e) => setFeelingHappy(e.target.value)}
+            min="0"
+            max="10"
+            required
+          />
+        </div>
+        <div className="form-group">
+          <label>Feeling Sad (Out of 10)</label>
+          <input
+            type="number"
+            className="form-control"
+            value={feelingSad}
+            onChange={(e) => setFeelingSad(e.target.value)}
+            min="0"
+            max="10"
+            required
+          />
+        </div>
+        <div className="form-group">
+          <label>Energy Level (Out of 10)</label>
+          <input
+            type="number"
+            className="form-control"
+            value={energyLevel}
+            onChange={(e) => setEnergyLevel(e.target.value)}
+            min="0"
+            max="10"
+            required
+          />
+        </div>
+        <div className="form-group">
+          <label>Sleep Quality (Out of 10)</label>
+          <input
+            type="number"
+            className="form-control"
+            value={sleepQuality}
+            onChange={(e) => setSleepQuality(e.target.value)}
+            min="0"
+            max="10"
+            required
+          />
+        </div>
+        <div className="form-group">
+          <label>Stress Level (Out of 10)</label>
+          <input
+            type="number"
+            className="form-control"
+            value={stressLevel}
+            onChange={(e) => setStressLevel(e.target.value)}
+            min="0"
+            max="10"
+            required
+          />
+        </div>
+        <div className="form-group">
+          <label>Description</label>
+          <textarea
+            className="form-control"
+            rows="3"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            required
+          ></textarea>
+        </div>
+        <button type="submit" className="btn btn-success mt-2">Add Mood Data</button>
       </form>
     </div>
   );

@@ -1,29 +1,25 @@
 import React, { useEffect, useState } from 'react';
-// import { useParams } from 'react-router-dom'; // Assuming you'll pass the patient's email via URL params
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import api from '../services/api';
 
 const PatientDetails = () => {
-//   const { email } = useParams(); // Get email from URL params
   const [patient, setPatient] = useState(null);
   const [description, setDescription] = useState('');
   const [feelingHappy, setFeelingHappy] = useState(0);
   const [feelingSad, setFeelingSad] = useState(0);
-  const [feedingShaddy, setFeedingShaddy] = useState(0);
- 
+  const [energyLevel, setEnergyLevel] = useState(0);
+  const [sleepQuality, setSleepQuality] = useState(0);
+  const [stressLevel, setStressLevel] = useState(0);
   const [patientEmail, setPatientEmail] = useState('');
 
- 
   useEffect(() => {
     const fetchPatientDetails = async () => {
       try {
-        const email = Cookies.get('patients_email'); // Get doctor email from cookies
+        const email = Cookies.get('patients_email');
         setPatientEmail(email);
-        console.log(patientEmail);
         const response = await api.get(`/filterpatientsbyemail/${email}`);
         setPatient(response.data);
-        console.log(response.data);
       } catch (error) {
         console.error("Error fetching patient details:", error);
       }
@@ -37,7 +33,9 @@ const PatientDetails = () => {
       email: patientEmail,
       feeling_happy: feelingHappy,
       feeling_sad: feelingSad,
-      feeding_shaddy: feedingShaddy,
+      energy_level: energyLevel,
+      sleep_quality: sleepQuality,
+      stress_level: stressLevel,
       description,
     };
 
@@ -48,7 +46,9 @@ const PatientDetails = () => {
       setDescription('');
       setFeelingHappy(0);
       setFeelingSad(0);
-      setFeedingShaddy(0);
+      setEnergyLevel(0);
+      setSleepQuality(0);
+      setStressLevel(0);
     } catch (err) {
       console.error("Error adding mood data:", err);
     }
@@ -101,9 +101,11 @@ const PatientDetails = () => {
           <tr>
             <th>Date</th>
             <th>Description</th>
-            <th>Feeling Shady (Out of 10)</th>
             <th>Feeling Happy (Out of 10)</th>
             <th>Feeling Sad (Out of 10)</th>
+            <th>Energy Level (Out of 10)</th>
+            <th>Sleep Quality (Out of 10)</th>
+            <th>Stress Level (Out of 10)</th>
           </tr>
         </thead>
         <tbody>
@@ -111,9 +113,11 @@ const PatientDetails = () => {
             <tr key={index}>
               <td>{new Date(summary.date).toLocaleDateString()}</td>
               <td>{summary.description}</td>
-              <td>{summary.feeding_shaddy}</td>
               <td>{summary.feeling_happy}</td>
               <td>{summary.feeling_sad}</td>
+              <td>{summary.energy_level}</td>
+              <td>{summary.sleep_quality}</td>
+              <td>{summary.stress_level}</td>
             </tr>
           ))}
         </tbody>
@@ -130,18 +134,6 @@ const PatientDetails = () => {
             onChange={(e) => setDescription(e.target.value)}
             required
           ></textarea>
-        </div>
-        <div className="form-group">
-          <label>Feeling Shady (Out of 10)</label>
-          <input
-            type="number"
-            className="form-control"
-            value={feedingShaddy}
-            onChange={(e) => setFeedingShaddy(e.target.value)}
-            min="0"
-            max="10"
-            required
-          />
         </div>
         <div className="form-group">
           <label>Feeling Happy (Out of 10)</label>
@@ -162,6 +154,42 @@ const PatientDetails = () => {
             className="form-control"
             value={feelingSad}
             onChange={(e) => setFeelingSad(e.target.value)}
+            min="0"
+            max="10"
+            required
+          />
+        </div>
+        <div className="form-group">
+          <label>Energy Level (Out of 10)</label>
+          <input
+            type="number"
+            className="form-control"
+            value={energyLevel}
+            onChange={(e) => setEnergyLevel(e.target.value)}
+            min="0"
+            max="10"
+            required
+          />
+        </div>
+        <div className="form-group">
+          <label>Sleep Quality (Out of 10)</label>
+          <input
+            type="number"
+            className="form-control"
+            value={sleepQuality}
+            onChange={(e) => setSleepQuality(e.target.value)}
+            min="0"
+            max="10"
+            required
+          />
+        </div>
+        <div className="form-group">
+          <label>Stress Level (Out of 10)</label>
+          <input
+            type="number"
+            className="form-control"
+            value={stressLevel}
+            onChange={(e) => setStressLevel(e.target.value)}
             min="0"
             max="10"
             required
